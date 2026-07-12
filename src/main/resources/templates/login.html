@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bembos Delivery - Iniciar Sesión</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.4/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+<header>
+    <nav class="navbar navbar-dark custom-navbar">
+        <div class="container">
+            <a class="navbar-brand fw-bold" th:href="@{/}">
+                <i class="fas fa-burger me-2"></i>Bembos Delivery
+            </a>
+        </div>
+    </nav>
+</header>
+
+<main class="flex-grow-1 d-flex align-items-center py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5 col-lg-4">
+
+                <div class="card custom-card">
+                    <div class="card-body p-4">
+
+                        <div class="text-center mb-4">
+                            <i class="fas fa-user-circle fa-3x mb-3" style="color: var(--primary);"></i>
+                            <h4 class="fw-bold">Iniciar Sesión</h4>
+                            <p class="text-muted small">Accede para realizar tus pedidos</p>
+                        </div>
+
+                        <!-- Mensajes de estado -->
+                        <div th:if="${errorMsg}" class="alert alert-danger py-2 small">
+                            <i class="fas fa-exclamation-circle me-1"></i>
+                            <span th:text="${errorMsg}"></span>
+                        </div>
+                        <div th:if="${logoutMsg}" class="alert alert-success py-2 small">
+                            <i class="fas fa-check-circle me-1"></i>
+                            <span th:text="${logoutMsg}"></span>
+                        </div>
+                        <div th:if="${param.registered}" class="alert alert-success py-2 small">
+                            <i class="fas fa-check-circle me-1"></i>
+                            ¡Registro exitoso! Ahora puedes iniciar sesión.
+                        </div>
+
+                        <!--
+                            Spring Security procesa el POST a /login automáticamente.
+                            th:action incluye el token CSRF requerido.
+                        -->
+                        <form th:action="@{/login}" method="post">
+
+                            <div class="mb-3">
+                                <label for="username" class="form-label fw-semibold">Usuario</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    <input type="text" class="form-control" id="username"
+                                           name="username" placeholder="Tu nombre de usuario" required autofocus>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="password" class="form-label fw-semibold">Contraseña</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                    <input type="password" class="form-control" id="password"
+                                           name="password" placeholder="Tu contraseña" required>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 btn-lg">
+                                <i class="fas fa-sign-in-alt me-2"></i>Ingresar
+                            </button>
+
+                        </form>
+
+                        <hr class="my-3">
+
+                        <div class="text-center small">
+                            ¿No tienes cuenta?
+                            <a th:href="@{/register}" class="fw-semibold" style="color: var(--primary);">
+                                Regístrate aquí
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-white py-3 text-center mt-auto" style="background: #1b1b1b;">
+    <p class="small mb-0">© 2026 Bembos Delivery — Proyecto de Ingeniería de Sistemas</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

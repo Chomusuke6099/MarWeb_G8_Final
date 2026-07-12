@@ -1,0 +1,538 @@
+/* ============================================
+   IMPORTAR FUENTES
+============================================ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+    --primary: #c0392b;
+    --primary-dark: #a93226;
+    --primary-light: #e74c3c;
+    --secondary: #f39c12;
+    --secondary-dark: #e67e22;
+    --dark: #2c3e50;
+    --gray: #7f8c8d;
+    --light: #ecf0f1;
+    --white: #ffffff;
+    --success: #27ae60;
+    --danger: #e74c3c;
+    --warning: #f1c40f;
+    --info: #3498db;
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.12);
+    --radius-sm: 12px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e9edf2 100%);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: var(--dark);
+    min-height: 100vh;
+}
+
+/* ============================================
+   TIPOGRAFÍA
+============================================ */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.display-5 {
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 1rem;
+}
+
+.lead {
+    color: var(--gray);
+    font-weight: 400;
+}
+
+/* ============================================
+   NAVBAR
+============================================ */
+.navbar {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark)) !important;
+    box-shadow: var(--shadow-md);
+    padding: 1rem 0;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+}
+
+.navbar-brand i {
+    font-size: 1.6rem;
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.15));
+}
+
+.nav-link {
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-radius: var(--radius-sm);
+    padding: 0.5rem 1rem !important;
+}
+
+.nav-link:hover {
+    background: rgba(255,255,255,0.15);
+    transform: translateY(-2px);
+}
+
+.nav-link.active {
+    background: rgba(255,255,255,0.2);
+}
+
+#cart-count {
+    background: var(--secondary) !important;
+    color: var(--dark) !important;
+    font-weight: 700;
+    border-radius: 50px;
+    padding: 2px 8px;
+    margin-left: 5px;
+}
+
+/* ============================================
+   CARDS
+============================================ */
+.card {
+    border: none;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    background: var(--white);
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.card-header {
+    background: var(--white);
+    border-bottom: 2px solid rgba(192, 57, 43, 0.1);
+    padding: 1.25rem 1.5rem;
+    font-weight: 600;
+}
+
+.card-header h5, .card-header h6 {
+    margin: 0;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* ============================================
+   PRODUCTOS (CATÁLOGO)
+============================================ */
+.product-card {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    position: relative;
+}
+
+.product-img-container {
+    height: 220px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, #f5f7fa, #e9edf2);
+}
+
+.product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.product-card:hover .product-img {
+    transform: scale(1.08);
+}
+
+.product-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.badge-categoria {
+    background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+    color: var(--white);
+    padding: 0.3rem 0.8rem;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ============================================
+   BOTONES
+============================================ */
+.btn {
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    padding: 0.7rem 1.5rem;
+    transition: all 0.3s ease;
+    border: none;
+    font-size: 0.9rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(192, 57, 43, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(192, 57, 43, 0.4);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(243, 156, 18, 0.4);
+}
+
+.btn-outline-primary {
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    background: transparent;
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   FORMULARIOS
+============================================ */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--dark);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-control,
+.form-select {
+    border-radius: var(--radius-sm);
+    border: 2px solid #e9edf2;
+    padding: 0.8rem 1rem;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    background: var(--white);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(192, 57, 43, 0.1);
+    outline: none;
+}
+
+.form-control.is-valid,
+.form-select.is-valid {
+    border-color: var(--success);
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%2327ae60"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.2rem;
+}
+
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: var(--danger);
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23e74c3c"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.2rem;
+}
+
+.error-message {
+    color: var(--danger);
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+/* ============================================
+   CHECKOUT (MÉTODOS DE PAGO)
+============================================ */
+.metodo-pago-option {
+    border: 2px solid #e9edf2;
+    border-radius: var(--radius-sm);
+    transition: all 0.3s ease;
+    background: var(--white);
+}
+
+.metodo-pago-option:hover {
+    border-color: var(--primary);
+    background: rgba(192, 57, 43, 0.02);
+    transform: translateX(4px);
+}
+
+.metodo-pago-option:has(input:checked) {
+    border-color: var(--primary);
+    background: linear-gradient(135deg, rgba(192, 57, 43, 0.05), rgba(169, 50, 38, 0.05));
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, #fef9e7, #fdebd0);
+    border: none;
+    border-radius: var(--radius-md);
+    color: var(--secondary-dark);
+    font-weight: 500;
+}
+
+/* ============================================
+   CARRITO
+============================================ */
+.cart-item {
+    border-bottom: 1px solid #e9edf2;
+    padding: 1rem 0;
+    transition: all 0.3s ease;
+}
+
+.cart-item:hover {
+    background: rgba(192, 57, 43, 0.02);
+    transform: translateX(4px);
+}
+
+.cart-item img {
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+}
+
+/* ============================================
+   CONFIRMACIÓN (COMPROBANTE)
+============================================ */
+.confirmacion-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-lg);
+}
+
+.confirm-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px dashed #e9edf2;
+}
+
+.confirm-item:last-child {
+    border-bottom: none;
+}
+
+.info-cliente p {
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+}
+
+.info-cliente strong {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.total-box {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+}
+
+.total-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.success-icon {
+    animation: pop 0.6s ease;
+}
+
+@keyframes pop {
+    0% { transform: scale(0); opacity: 0; }
+    60% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* ============================================
+   TOAST NOTIFICACIONES
+============================================ */
+.custom-toast {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: var(--dark);
+    color: var(--white);
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius-sm);
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s ease;
+    z-index: 9999;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-weight: 500;
+}
+
+.custom-toast.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.custom-toast.success {
+    background: linear-gradient(135deg, var(--success), #1e8449);
+}
+
+.custom-toast.error {
+    background: linear-gradient(135deg, var(--danger), #c0392b);
+}
+
+/* ============================================
+   FOOTER
+============================================ */
+footer {
+    background: linear-gradient(135deg, var(--dark), #1a252f);
+    margin-top: 4rem;
+}
+
+footer h6 {
+    color: var(--secondary);
+    font-weight: 600;
+}
+
+footer ul li {
+    margin-bottom: 0.5rem;
+}
+
+/* ============================================
+   RESPONSIVE
+============================================ */
+@media (max-width: 768px) {
+    .display-5 {
+        font-size: 1.8rem;
+    }
+    
+    .product-img-container {
+        height: 180px;
+    }
+    
+    .btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.85rem;
+    }
+    
+    .confirmacion-card {
+        padding: 1rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+    
+    .product-img-container {
+        height: 160px;
+    }
+    
+    .card-header {
+        padding: 0.8rem 1rem;
+    }
+}
+
+
+/* ============================================
+   COMPROBANTE
+============================================ */
+.info-line {
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px dashed #e9ecef;
+}
+.info-line:last-child {
+    border-bottom: none;
+}
+.info-label {
+    font-weight: 600;
+    color: #495057;
+    display: inline-block;
+    min-width: 110px;
+}
+.confirmacion-card {
+    background: white;
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+.table {
+    font-size: 0.9rem;
+}
+.table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+.badge.bg-success {
+    background: linear-gradient(135deg, var(--success), #1e8449) !important;
+    font-size: 0.8rem;
+}
+@media print {
+    .no-print, header, footer, .btn, .btn-print-hide {
+        display: none !important;
+    }
+    body {
+        background: white !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    .confirmacion-card {
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
+}
+
+
+
+

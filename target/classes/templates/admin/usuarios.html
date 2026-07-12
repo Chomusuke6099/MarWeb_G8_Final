@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bembos Delivery - Gestión de Usuarios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.4/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top custom-navbar">
+        <div class="container">
+            <a class="navbar-brand fw-bold" th:href="@{/}">
+                <i class="fas fa-burger me-2"></i>Bembos Delivery
+            </a>
+            <div class="navbar-nav ms-auto d-flex flex-row gap-3">
+                <a class="nav-link" th:href="@{/admin/dashboard}"><i class="fas fa-chart-bar me-1"></i>Dashboard</a>
+                <a class="nav-link" th:href="@{/}"><i class="fas fa-home me-1"></i>Catálogo</a>
+                <span class="nav-link text-white opacity-75">
+                    <i class="fas fa-user-shield me-1"></i>
+                    <span sec:authentication="name"></span>
+                </span>
+                <a class="nav-link" th:href="@{/logout}"><i class="fas fa-sign-out-alt me-1"></i>Salir</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="container py-5">
+
+    <div class="mb-4">
+        <a th:href="@{/admin/dashboard}" class="btn btn-outline-secondary btn-sm mb-3">
+            <i class="fas fa-arrow-left me-1"></i>Volver al Dashboard
+        </a>
+        <h2 class="fw-bold mb-1">Gestión de Usuarios</h2>
+        <p class="text-muted">Administra roles y estados de los usuarios del sistema</p>
+    </div>
+
+    <!-- Alerta de actualización -->
+    <div th:if="${param.actualizado}" class="alert alert-success alert-dismissible fade show">
+        <i class="fas fa-check-circle me-2"></i>Rol actualizado correctamente.
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div class="card custom-card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuario</th>
+                            <th>Email</th>
+                            <th>Rol Actual</th>
+                            <th>Estado</th>
+                            <th>Registro</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="u : ${usuarios}">
+                            <td class="text-muted small" th:text="${u.usuarioId}"></td>
+                            <td>
+                                <i class="fas fa-user me-1 text-muted"></i>
+                                <strong th:text="${u.username}"></strong>
+                            </td>
+                            <td class="small" th:text="${u.email != null ? u.email : '—'}"></td>
+                            <td>
+                                <span class="badge fs-6"
+                                      th:classappend="${u.rol.name() == 'ADMIN'} ? 'bg-danger' : 'bg-secondary'"
+                                      th:text="${u.rol.name()}"></span>
+                            </td>
+                            <td>
+                                <span class="badge"
+                                      th:classappend="${u.activo} ? 'bg-success' : 'bg-warning text-dark'"
+                                      th:text="${u.activo} ? 'Activo' : 'Inactivo'"></span>
+                            </td>
+                            <td class="small text-muted"
+                                th:text="${u.fechaRegistro != null ?
+                                    #temporals.format(u.fechaRegistro, 'dd/MM/yyyy HH:mm') : '—'}">
+                            </td>
+                            <td class="text-center">
+                                <div class="d-flex gap-2 justify-content-center">
+
+                                    <!-- Cambiar rol: alterna entre USER y ADMIN -->
+                                    <form th:action="@{/admin/usuarios/{id}/rol(id=${u.usuarioId})}"
+                                          method="post" class="d-inline">
+                                        <input type="hidden" name="rol"
+                                               th:value="${u.rol.name() == 'ADMIN'} ? 'USER' : 'ADMIN'">
+                                        <button type="submit"
+                                                class="btn btn-sm"
+                                                th:classappend="${u.rol.name() == 'ADMIN'} ? 'btn-outline-secondary' : 'btn-outline-danger'"
+                                                th:title="${u.rol.name() == 'ADMIN'} ? 'Cambiar a USER' : 'Cambiar a ADMIN'">
+                                            <i class="fas"
+                                               th:classappend="${u.rol.name() == 'ADMIN'} ? 'fa-user-minus' : 'fa-user-shield'"></i>
+                                            <span th:text="${u.rol.name() == 'ADMIN'} ? 'Quitar Admin' : 'Hacer Admin'"></span>
+                                        </button>
+                                    </form>
+
+                                    <!-- Activar / desactivar usuario -->
+                                    <form th:action="@{/admin/usuarios/{id}/toggle(id=${u.usuarioId})}"
+                                          method="post" class="d-inline">
+                                        <button type="submit"
+                                                class="btn btn-sm"
+                                                th:classappend="${u.activo} ? 'btn-outline-warning' : 'btn-outline-success'"
+                                                th:title="${u.activo} ? 'Desactivar usuario' : 'Activar usuario'">
+                                            <i class="fas"
+                                               th:classappend="${u.activo} ? 'fa-ban' : 'fa-check'"></i>
+                                            <span th:text="${u.activo} ? 'Desactivar' : 'Activar'"></span>
+                                        </button>
+                                    </form>
+
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(usuarios)}">
+                            <td colspan="7" class="text-center text-muted py-4">
+                                No hay usuarios registrados
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<footer class="text-white py-4 mt-5 text-center" style="background: #1b1b1b;">
+    <p class="small mb-0">© 2026 Bembos Delivery — Panel de Administración</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
