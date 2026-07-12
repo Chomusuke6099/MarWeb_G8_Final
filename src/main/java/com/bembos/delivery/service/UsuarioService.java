@@ -5,6 +5,9 @@ import com.bembos.delivery.model.Rol;
 import com.bembos.delivery.model.Usuario;
 import com.bembos.delivery.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.context.annotation.Lazy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,19 +17,16 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * Servicio de usuarios.
- * Implementa UserDetailsService para que Spring Security pueda
- * cargar usuarios desde la base de datos durante la autenticación.
- */
 @Service
 @RequiredArgsConstructor
 public class UsuarioService implements UserDetailsService {
 
     private final UsuarioRepository usuarioRepository;
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    @Lazy
+    private PasswordEncoder passwordEncoder;
 
-    // ── UserDetailsService ─────────────────────────────────────────────────────
+    // UserDetailsService
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -35,7 +35,7 @@ public class UsuarioService implements UserDetailsService {
                         "Usuario no encontrado: " + username));
     }
 
-    // ── Registro ───────────────────────────────────────────────────────────────
+    // Registro
 
     public void registrar(RegistroDTO dto) {
 
@@ -67,7 +67,7 @@ public class UsuarioService implements UserDetailsService {
         usuarioRepository.save(nuevo);
     }
 
-    // ── Administración ─────────────────────────────────────────────────────────
+    // Administración
 
     public List<Usuario> listarTodos() {
         return usuarioRepository.findAll();
