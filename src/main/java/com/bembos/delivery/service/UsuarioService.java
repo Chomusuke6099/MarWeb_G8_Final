@@ -19,6 +19,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@SuppressWarnings("null")
 public class UsuarioService implements UserDetailsService {
 
     private final UsuarioRepository usuarioRepository;
@@ -67,6 +68,24 @@ public class UsuarioService implements UserDetailsService {
         usuarioRepository.save(nuevo);
     }
 
+    // Recuperación de contraseña
+
+    public boolean existeUsuario(String username) {
+        return usuarioRepository.existsByUsername(username);
+    }
+
+    public void resetearPassword(String username, String nuevaPassword, String confirmar) {
+        if (nuevaPassword == null || nuevaPassword.length() < 6)
+            throw new IllegalArgumentException("La contraseña debe tener al menos 6 caracteres");
+        if (!nuevaPassword.equals(confirmar))
+            throw new IllegalArgumentException("Las contraseñas no coinciden");
+
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+        usuario.setPassword(passwordEncoder.encode(nuevaPassword));
+        usuarioRepository.save(usuario);
+    }
+
     // Administración
 
     public List<Usuario> listarTodos() {
@@ -85,5 +104,12 @@ public class UsuarioService implements UserDetailsService {
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
         usuario.setActivo(!usuario.isActivo());
         usuarioRepository.save(usuario);
+    }
+
+    public void eliminar(Integer id) {
+    if (!usuarioRepository.existsById(id)) {
+        throw new IllegalArgumentException("Usuario no encontrado");
+    }
+        usuarioRepository.deleteById(id);
     }
 }

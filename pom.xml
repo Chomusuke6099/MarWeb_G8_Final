@@ -16,7 +16,7 @@
     <artifactId>delivery</artifactId>
     <version>1.0.0</version>
     <name>Bembos Delivery</name>
-    <description>Proyecto de Ingeniería de Sistemas - Bembos Delivery</description>
+    <description>Proyecto de Marcos Web - Bembos Delivery</description>
 
     <properties>
         <java.version>21</java.version>

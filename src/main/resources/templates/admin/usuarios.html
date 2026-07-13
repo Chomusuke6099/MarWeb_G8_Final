@@ -25,7 +25,11 @@
                     <i class="fas fa-user-shield me-1"></i>
                     <span sec:authentication="name"></span>
                 </span>
-                <a class="nav-link" th:href="@{/logout}"><i class="fas fa-sign-out-alt me-1"></i>Salir</a>
+                <form th:action="@{/logout}" method="post" class="d-inline m-0 p-0">
+                <button type="submit" class="btn btn-link nav-link p-0 text-white">
+                    <i class="fas fa-sign-out-alt me-1"></i>Salir
+                </button>
+            </form>
             </div>
         </div>
     </nav>
@@ -59,7 +63,7 @@
                             <th>Rol Actual</th>
                             <th>Estado</th>
                             <th>Registro</th>
-                            <th class="text-center">Acciones</th>
+                            <th class="text-center" style="min-width:280px;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -112,6 +116,16 @@
                                             <i class="fas"
                                                th:classappend="${u.activo} ? 'fa-ban' : 'fa-check'"></i>
                                             <span th:text="${u.activo} ? 'Desactivar' : 'Activar'"></span>
+                                        </button>
+                                    </form>
+
+                                    <!-- Eliminar usuario -->
+                                    <form th:action="@{/admin/usuarios/{id}/eliminar(id=${u.usuarioId})}"
+                                          method="post" class="d-inline"
+                                          onsubmit="return confirm('¿Eliminar este usuario permanentemente?')">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                title="Eliminar usuario">
+                                            <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
 

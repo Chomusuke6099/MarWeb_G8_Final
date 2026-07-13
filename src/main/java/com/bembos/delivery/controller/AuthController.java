@@ -60,4 +60,39 @@ public class AuthController {
             return "register";
         }
     }
+
+    // Recuperación de contraseña 
+    
+    @GetMapping("/recuperar-password")
+    public String recuperarPage() {
+        return "recuperar-password";
+    }
+
+    @PostMapping("/recuperar-password/verificar")
+    public String verificarUsuario(@RequestParam String username, Model model) {
+        if (usuarioService.existeUsuario(username)) {
+            model.addAttribute("username", username);
+            model.addAttribute("paso", 2);
+        } else {
+            model.addAttribute("errorMsg", "No existe una cuenta con ese nombre de usuario");
+            model.addAttribute("paso", 1);
+        }
+        return "recuperar-password";
+    }
+
+    @PostMapping("/recuperar-password/resetear")
+    public String resetearPassword(@RequestParam String username,
+                                   @RequestParam String nuevaPassword,
+                                   @RequestParam String confirmarPassword,
+                                   Model model) {
+        try {
+            usuarioService.resetearPassword(username, nuevaPassword, confirmarPassword);
+            return "redirect:/login?password-cambiado";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("errorMsg", e.getMessage());
+            model.addAttribute("username", username);
+            model.addAttribute("paso", 2);
+            return "recuperar-password";
+        }
+    }
 }

@@ -1,81 +1,31 @@
-let zonasDelivery = [];
-let deliveryCosto = 0;
-
-
-// ZONAS DE DELIVERY
-function cargarZonasDelivery() {
-    fetch('/api/zonas')
-        .then(response => response.json())
-        .then(data => {
-            zonasDelivery = data;
-            actualizarSelectZonas();
-        })
-        .catch(error => console.error('Error cargando zonas:', error));
+function getCarritoKey() {
+    const user = (typeof USUARIO_ACTUAL !== 'undefined' && USUARIO_ACTUAL)
+        ? USUARIO_ACTUAL
+        : 'anonimo';
+    return 'carrito_' + user;
 }
 
-function actualizarSelectZonas() {
-    const zonaSelect = document.getElementById('zona');
-    if (!zonaSelect) return;
-    
-    zonaSelect.innerHTML = '<option value="">Selecciona tu zona</option>';
-    
-    for (const zona of zonasDelivery) {
-        const option = document.createElement('option');
-        option.value = zona.id;
-        option.setAttribute('data-costo', zona.costo);
-        option.setAttribute('data-tiempo', zona.tiempoEstimado);
-        option.textContent = `${zona.nombre} - S/ ${parseFloat(zona.costo).toFixed(2)}`;
-        zonaSelect.appendChild(option);
-    }
-}
+// Zonas de delivery
+const zonasDelivery = {
+    "Centro": 5.00,
+    "Norte":  8.00,
+    "Sur":    7.00,
+    "Este":   6.50,
+    "Oeste":  6.50
+};
 
+// Carrito (localStorage con clave por usuario)
 
-// EVENTOS CUANDO SE SELECCIONA UNA ZONA
-function initZonaEvent() {
-    const zonaSelect = document.getElementById('zona');
-    if (!zonaSelect) return;
-    
-    zonaSelect.addEventListener('change', function() {
-        const selectedOption = this.options[this.selectedIndex];
-        if (this.value) {
-            deliveryCosto = parseFloat(selectedOption.getAttribute('data-costo'));
-            const tiempoEstimado = selectedOption.getAttribute('data-tiempo');
-            document.getElementById('costo-delivery').value = `S/ ${deliveryCosto.toFixed(2)} (${tiempoEstimado})`;
-        } else {
-            deliveryCosto = 0;
-            document.getElementById('costo-delivery').value = '';
-        }
-        
-        if (typeof actualizarTotales === 'function') {
-            actualizarTotales();
-        }
-    });
-}
-
-
-// MÉTODOS DE PAGO
-function cargarMetodosPago() {
-    return fetch('/api/metodos-pago')
-        .then(response => response.json())
-        .then(data => {
-            window.metodosPago = data;
-            return data;
-        })
-        .catch(error => console.error('Error cargando métodos de pago:', error));
-}
-
-
-// CARRITO (localStorage)
 function getCarrito() {
     try {
-        return JSON.parse(localStorage.getItem('carrito')) || [];
+        return JSON.parse(localStorage.getItem(getCarritoKey())) || [];
     } catch {
         return [];
     }
 }
 
 function saveCarrito(carrito) {
-    localStorage.setItem('carrito', JSON.stringify(carrito));
+    localStorage.setItem(getCarritoKey(), JSON.stringify(carrito));
     updateCartCount();
 }
 
@@ -94,8 +44,7 @@ function addToCarrito(productoId, cantidad, nombre, precio, imagen) {
 }
 
 function removeFromCarrito(productoId) {
-    const nuevo = getCarrito().filter(item => item.id !== productoId);
-    saveCarrito(nuevo);
+    saveCarrito(getCarrito().filter(i => i.id !== productoId));
 }
 
 function updateCantidad(productoId, cantidad) {
@@ -107,10 +56,11 @@ function updateCantidad(productoId, cantidad) {
         removeFromCarrito(productoId);
         return;
     }
-
     item.cantidad = cantidad;
     saveCarrito(carrito);
 }
+
+// Totales
 
 function getTotalCarrito() {
     return getCarrito().reduce((t, i) => t + i.precio * i.cantidad, 0);
@@ -125,41 +75,26 @@ function updateCartCount() {
     if (el) el.textContent = getCantidadTotal();
 }
 
+// Notificaciones
 
-// NOTIFICACIONES
 function mostrarNotificacion(mensaje, tipo = 'success') {
     const notif = document.createElement('div');
     notif.className = `custom-toast ${tipo}`;
-    notif.innerHTML = `
-        <div class="toast-body">
-            <i class="fas fa-check-circle me-2"></i>
-            ${mensaje}
-        </div>
-    `;
-
+    notif.innerHTML = `<div class="toast-body">
+        <i class="fas fa-check-circle me-2"></i>${mensaje}
+    </div>`;
     document.body.appendChild(notif);
-
     setTimeout(() => notif.classList.add('show'), 100);
-
     setTimeout(() => {
         notif.classList.remove('show');
         setTimeout(() => notif.remove(), 300);
     }, 2500);
 }
 
+// Formato de precios
 
-// FORMATO DE PRECIOS
 function formatPrecio(precio) {
     return `S/ ${precio.toFixed(2)}`;
 }
 
-
-// INICIALIZACIÓN
-document.addEventListener('DOMContentLoaded', function() {
-    cargarZonasDelivery();
-    cargarMetodosPago();
-    updateCartCount();
-    initZonaEvent();
-});
-
-
+document.addEventListener('DOMContentLoaded', updateCartCount);

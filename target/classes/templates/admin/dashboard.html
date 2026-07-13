@@ -42,9 +42,14 @@
             <h1 class="display-6 fw-bold mb-1">Panel de Administración</h1>
             <p class="text-muted mb-0">Bienvenido, <span sec:authentication="name" class="fw-semibold"></span></p>
         </div>
-        <a th:href="@{/admin/usuarios}" class="btn btn-primary">
-            <i class="fas fa-users me-2"></i>Gestionar Usuarios
-        </a>
+        <div class="d-flex gap-2">
+            <a th:href="@{/admin/productos}" class="btn btn-warning">
+                <i class="fas fa-burger me-2"></i>Gestionar Productos
+            </a>
+            <a th:href="@{/admin/usuarios}" class="btn btn-primary">
+                <i class="fas fa-users me-2"></i>Gestionar Usuarios
+            </a>
+        </div>
     </div>
 
     <!-- Tarjetas de estadísticas -->

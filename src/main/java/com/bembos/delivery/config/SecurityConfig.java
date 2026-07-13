@@ -11,37 +11,22 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-/**
- * Configuración principal de Spring Security para Bembos Delivery.
- *
- * Autenticación:
- *  - Rutas web (/login, /register, etc.)  → formulario + cookies de sesión
- *  - Rutas REST (/api/**)                 → JWT Bearer Token
- *
- * Autorización:
- *  - Recursos estáticos y /login /register → públicos
- *  - /carrito, /checkout, /confirmacion   → requieren estar autenticado
- *  - /admin/**                            → solo rol ADMIN
- *  - /api/auth/**                         → público (para obtener el JWT)
- *  - /api/pedidos/**                      → requiere autenticación
- */
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity               // Habilita @PreAuthorize en los controllers
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
     private final UserDetailsService userDetailsService;
 
-    // ── Cadena de filtros de seguridad ─────────────────────────────────────────
+    // Cadena de filtros de seguridad
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -59,7 +44,7 @@ public class SecurityConfig {
                 .requestMatchers("/css/**", "/js/**", "/imagenes/**").permitAll()
 
                 // Páginas de autenticación → públicas
-                .requestMatchers("/login", "/register").permitAll()
+                .requestMatchers("/login", "/register", "/recuperar-password", "/recuperar-password/**").permitAll()
 
                 // Catálogo principal → público (cualquiera puede ver el menú)
                 .requestMatchers("/").permitAll()
@@ -129,7 +114,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // ── Beans de seguridad ─────────────────────────────────────────────────────
+    // Beans de seguridad
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -137,6 +122,7 @@ public class SecurityConfig {
     }
 
     @Bean
+    @SuppressWarnings("deprecation")
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);

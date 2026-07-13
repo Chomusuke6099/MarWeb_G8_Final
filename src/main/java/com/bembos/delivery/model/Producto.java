@@ -33,6 +33,9 @@ public class Producto {
     @Column(name = "Imagen")
     private String imagen;
 
+    @Column(name = "CategoriaID")
+    private Integer categoriaId;
+
     @Transient 
     private String categoria;
 }

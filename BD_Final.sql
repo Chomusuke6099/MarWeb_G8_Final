@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS Usuario (
 INSERT INTO Usuario (Username, Password, Email, Rol)
 VALUES (
     'admin',
-    '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBaIW0LNKODhWq',
+    '$2a$10$zZdavjMRmaA4MpaXgDVqSOI8Q2BijgOteeO7pmSy26qvze8UXkBeO',
     'admin@bembos.com',
     'ADMIN'
 );
