@@ -4,7 +4,7 @@ Aplicación web full-stack desarrollada con **Spring Boot + Thymeleaf + MySQL** 
 
 > **Curso:** Marcos de Desarrollo Web  
 > **Proyecto:** Sistema de Gestión — Entregable Final  
-> **Institución:** Universidad de Tecnología del Perú (UTP)
+> **Institución:** Universidad Tecnológica del Perú (UTP)
 
 ---
 
