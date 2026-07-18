@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ZonaDeliveryRepository extends JpaRepository<ZonaDelivery, Integer> {
 
-    @Query(value = "CALL sp_listar_zonas_delivery()", nativeQuery = true)
+    @Query("SELECT z FROM ZonaDelivery z ORDER BY z.costo ASC")
     List<ZonaDelivery> listarZonasDelivery();
     
     @Query(value = "CALL sp_calcular_zona_por_direccion(:direccion)", nativeQuery = true)
@@ -18,5 +18,3 @@ public interface ZonaDeliveryRepository extends JpaRepository<ZonaDelivery, Inte
     @Query(value = "CALL sp_obtener_costo_delivery(:zonaId)", nativeQuery = true)
     List<Object[]> obtenerCostoDelivery(@Param("zonaId") Integer zonaId);
 }
-
-

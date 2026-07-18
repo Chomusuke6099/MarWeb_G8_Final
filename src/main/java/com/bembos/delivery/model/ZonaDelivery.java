@@ -26,6 +26,8 @@ public class ZonaDelivery {
     @Column(name = "TiempoEstimado", length = 50)
     private String tiempoEstimado;
     
+    @Column(name = "PalabrasClave")
+    private String palabrasClave;
 }
 
 

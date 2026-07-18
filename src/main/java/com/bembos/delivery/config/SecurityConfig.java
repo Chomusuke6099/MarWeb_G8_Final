@@ -32,7 +32,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-            // CSRF: desactivado solo para /api/** (llamadas fetch desde JS)
+            // CSRF
             .csrf(csrf -> csrf
                 .ignoringRequestMatchers("/api/**")
             )

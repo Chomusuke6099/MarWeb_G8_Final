@@ -188,9 +188,17 @@ function renderResumenPedido() {
 
     actualizarTotales();
 }
+let deliveryCosto = 0; 
 
 function actualizarTotales() {
     const subtotal = getTotalCarrito();
+    
+    const selectZona = document.getElementById('zona');
+    if (selectZona && selectZona.value) {
+
+        deliveryCosto = parseFloat(selectZona.options[selectZona.selectedIndex].getAttribute('data-costo')) || 0;
+    }
+
     const total = subtotal + deliveryCosto;
 
     document.getElementById('subtotal').textContent = formatPrecio(subtotal);

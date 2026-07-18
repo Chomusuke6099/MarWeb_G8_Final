@@ -40,10 +40,6 @@
                             <span th:text="${errorMsg}"></span>
                         </div>
 
-                        <!--
-                            th:action incluye automáticamente el token CSRF.
-                            th:object enlaza el formulario con el RegistroDTO.
-                        -->
                         <form th:action="@{/register}" th:object="${registroDTO}" method="post">
 
                             <div class="mb-3">

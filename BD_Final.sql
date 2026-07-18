@@ -83,7 +83,7 @@ CREATE TABLE Pedido_Item (
     CONSTRAINT fk_pedidoitem_producto FOREIGN KEY (ProductoID) REFERENCES Producto(ProductoID)
 );
 
--- 8. USUARIOS DEL SISTEMA (De: BD_FINAL)
+-- 8. USUARIOS DEL SISTEMA
 CREATE TABLE IF NOT EXISTS Usuario (
     UsuarioID INT AUTO_INCREMENT PRIMARY KEY,
     Username VARCHAR(50) NOT NULL UNIQUE,
@@ -157,7 +157,6 @@ BEGIN
 END //
 
 -- PRODUCTOS
--- Corregido para mapear exactamente con tu entidad Producto.java
 CREATE PROCEDURE sp_listar_productos()
 BEGIN
     SELECT ProductoID, Nombre, Descripcion, Precio, Imagen, CategoriaID 
@@ -185,7 +184,7 @@ BEGIN
     SELECT ClienteID INTO v_clienteId FROM Cliente WHERE Telefono = p_telefono LIMIT 1;
     
     IF v_clienteId IS NULL THEN
-        INSERT INTO Cliente (Nombre, Telefono, Email, Dilreccion, Referencia, ZonaID) -- Nota: Tienes un error de tipeo heredado 'Dilreccion' o 'Direccion', corregido a Direccion
+        INSERT INTO Cliente (Nombre, Telefono, Email, Direccion, Referencia, ZonaID)
         VALUES (p_nombre, p_telefono, p_email, p_direccion, p_referencia, p_zonaId);
         SET v_clienteId = LAST_INSERT_ID();
     ELSE

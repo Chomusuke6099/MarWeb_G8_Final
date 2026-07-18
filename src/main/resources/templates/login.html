@@ -48,10 +48,6 @@
                             ¡Registro exitoso! Ahora puedes iniciar sesión.
                         </div>
 
-                        <!--
-                            Spring Security procesa el POST a /login automáticamente.
-                            th:action incluye el token CSRF requerido.
-                        -->
                         <form th:action="@{/login}" method="post">
 
                             <div class="mb-3">
